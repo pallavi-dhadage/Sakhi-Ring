@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String   @id @default(cuid())
+  phone         String   @unique
+  name          String
+  isVolunteer   Boolean  @default(false)
+  latitude      Float?
+  longitude     Float?
+  lastActive    DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Alerts created by this user (as victim)
+  alerts        Alert[]  @relation("UserAlerts")
+  // Alerts this user has volunteered for
+  volunteeredAlerts Alert[] @relation("VolunteerAlerts")
+}
+
+model Alert {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation("UserAlerts", fields: [userId], references: [id])
+  latitude      Float
+  longitude     Float
+  status        String   @default("active")
+  createdAt     DateTime @default(now())
+  resolvedAt    DateTime?
+  volunteerId   String?
+  volunteer     User?    @relation("VolunteerAlerts", fields: [volunteerId], references: [id])
+}
