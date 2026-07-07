@@ -5,6 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import Redis from 'ioredis';
 import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 dotenv.config();
 
@@ -12,8 +13,10 @@ const app = express();
 const server = http.createServer(app);
 const io = new SocketServer(server, { cors: { origin: '*' } });
 
-// ✅ PrismaClient reads DATABASE_URL from .env automatically
-const prisma = new PrismaClient();
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+});
+const prisma = new PrismaClient({ adapter });
 const redis = new Redis(process.env.REDIS_URL!);
 
 app.use(cors());
@@ -62,6 +65,21 @@ app.post('/api/summon', async (req, res) => {
   });
 
   res.json({ alertId: alert.id, volunteersNotified: volunteerIds.length });
+});
+
+app.post('/api/accept', async (req, res) => {
+  const { alertId, volunteerId } = req.body;
+  if (!alertId || !volunteerId) {
+    return res.status(400).json({ error: 'Missing fields' });
+  }
+  const alert = await prisma.alert.findUnique({ where: { id: alertId } });
+  if (!alert) return res.status(404).json({ error: 'Alert not found' });
+  await prisma.alert.update({
+    where: { id: alertId },
+    data: { volunteerId, status: 'resolved', resolvedAt: new Date() },
+  });
+  io.emit(`user_${alert.userId}`, { type: 'volunteer_accepted', volunteerId });
+  res.json({ success: true });
 });
 
 io.on('connection', (socket) => {
