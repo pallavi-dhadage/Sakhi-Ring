@@ -1,34 +1,32 @@
 # 🛡️ Sakhi Ring – The 200‑Meter Human Shield
 
-> *“Because in 5 minutes, a presence is worth more than a siren.”*
+> *"In the 5 minutes it takes for help to arrive, a nearby presence is worth more than a distant siren."*
 
-Sakhi Ring is a hyperlocal, real‑time women’s safety network built for the Indian context.  
-Instead of waiting for the police (5–15 minutes), it instantly connects a woman in distress with **verified female volunteers within a 200‑meter radius** – turning bystanders into immediate guardians.
-
----
-
-## 🚨 The Problem We Solve
-
-In crowded Indian cities or isolated streets, an attacker is emboldened by the absence of witnesses. A woman doesn’t need a weapon – she needs **human presence**.  
-Calling the police is slow, and panic buttons are often snatched away.
+Sakhi Ring is a hyperlocal, real‑time safety network designed for the Indian context, where response times can mean the difference between fear and safety. Instead of relying solely on police (5–15 minutes away), it instantly connects a woman in distress with **verified female volunteers within a 200‑meter radius** – transforming everyday bystanders into immediate guardians.
 
 ---
 
-## 💡 Our Live Solution
+## 🚨 The Reality We Address
 
-- **One‑Tap “Summon Sakhis”** – a discreet button triggers an alert.
-- **Geo‑Hashing** – finds the 5 nearest registered volunteers within 200 m in real time.
-- **Live Volunteer Tracking** – volunteers appear on a mini‑map (WebSocket streaming).
-- **3‑Minute Fallback** – if no volunteer reaches in 3 minutes, an automatic voice call is placed to the nearest PCR van with GPS details (planned).
-- **Offline‑First** – falls back to SMS via Twilio if data is patchy (planned).
+In crowded Indian cities or isolated streets, an attacker is emboldened by the absence of witnesses. A woman doesn’t need a weapon – she needs **human presence**. Calling the police is slow, and panic buttons are often snatched away before they can be used. Sakhi Ring bridges that critical gap.
 
 ---
 
-## ✨ Key Features (Currently Working)
+## 💡 How It Works (Live Today)
+
+- **One‑Tap "Summon Sakhis"** – A discreet button triggers an instant alert.
+- **Geo‑Hashing** – Identifies the 5 nearest registered volunteers within 200 m in real time.
+- **Live Volunteer Tracking** – Volunteers appear on a mini‑map (WebSocket streaming).
+- **3‑Minute Fallback** – If no volunteer arrives in 3 minutes, an automatic voice call is placed to the nearest PCR van with GPS details (*planned*).
+- **Offline‑First** – Falls back to SMS via Twilio if data is patchy (*planned*).
+
+---
+
+## ✨ Key Features
 
 | Feature | Status |
 |---------|--------|
-| ✅ Discreet “Summon Sakhis” button | Done |
+| ✅ Discreet "Summon Sakhis" button | Done |
 | ✅ Geolocation (browser API) | Done |
 | ✅ Redis geo‑hashing for 200m radius | Done |
 | ✅ Real‑time WebSocket alerts (Socket.io) | Done |
@@ -71,46 +69,3 @@ Calling the police is slow, and panic buttons are often snatched away.
 ```bash
 git clone https://github.com/pallavi-dhadage/Sakhi-Ring.git
 cd Sakhi-Ring
-2. Backend
-bash
-cd backend
-cp .env.example .env   # or create .env with your DATABASE_URL
-yarn install
-npx prisma db push     # sync database schema
-yarn dev
-Backend runs at http://localhost:5000
-
-3. Frontend
-bash
-cd ../frontend
-yarn install
-yarn dev
-Frontend runs at http://localhost:5173
-
-4. Open two browser tabs
-Tab 1: User – click “Summon Sakhis”
-
-Tab 2 (or incognito): Volunteer – toggle “Become a Sakhi” and accept incoming alerts
-
-📸 Screenshots
-(Add screenshots here later)
-
-📌 Current Status (as of July 2026)
-✅ Backend: REST APIs, WebSocket server, Redis geo‑queries, Prisma + PostgreSQL.
-
-✅ Frontend: Responsive dashboard with map, emergency button, volunteer mode, real‑time alerts.
-
-✅ Integration: Full end‑to‑end flow from summon to acceptance.
-
-✅ Deployment: Ready for local development; Docker‑ization is next.
-
-🤝 Contribute
-We welcome contributions! Please open an issue or pull request for any bug fixes, features, or improvements.
-
-📄 License
-This project is open‑source under the MIT License.
-
-💬 Contact
-For questions or collaboration, please reach out via GitHub Issues.
-
-Together, we can make our cities safer. 
